@@ -3,13 +3,13 @@
  * @Description:
  * @Date: 2024-09-10 15:01:15
  * @LastEditors: liaokt
- * @LastEditTime: 2024-09-10 16:04:18
+ * @LastEditTime: 2024-09-27 15:54:29
  */
 
 "use client";
-import { createTodoZodSchema, createTodoZodSchemaType } from "@/app/schema/todo";
+import { createTodoZodSchema, type createTodoZodSchemaType } from "@/app/schema/login";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,12 +33,19 @@ export default function LoginForm() {
   const { handleSubmit, reset, control } = form;
 
   const onSubmit = handleSubmit(async (data: createTodoZodSchemaType) => {
-    startTransition(async () => {});
+    startTransition(async () => {
+      // 1. 调用登录接口
+      // 2. 登录接口成功回调
+      console.log(data);
+      // 2.2 重置表单
+      reset();
+      // 3. 登录接口失败回调
+    });
   });
 
   return (
     <Form {...form}>
-      <form ref={formRef} className="space-y-6">
+      <form ref={formRef} onSubmit={onSubmit} className="space-y-4">
         <FormField
           control={control}
           name="nickName"
@@ -47,6 +54,7 @@ export default function LoginForm() {
               <FormControl>
                 <Input placeholder="请输入昵称" {...field} className="h-14" />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -58,6 +66,7 @@ export default function LoginForm() {
               <FormControl>
                 <Input placeholder="请输入用户名" {...field} className="h-14" />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -69,17 +78,20 @@ export default function LoginForm() {
               <FormControl>
                 <Input placeholder="请输入密码" {...field} className="h-14" />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
+        <div className="flex flex-row items-center space-x-2 mt-4">
+          <Checkbox />
+          <label className=" text-xs font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            我同意协议
+          </label>
+        </div>
+        <Button type="submit" loading={isPending} className="w-full h-12 mt-14 bg-[#6f53b5] ">
+          登录
+        </Button>
       </form>
-      <div className="flex flex-row items-center space-x-2 mt-4">
-        <Checkbox />
-        <label className=" text-xs font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-          我同意协议
-        </label>
-      </div>
-      <Button className="w-full h-12 mt-14 bg-[#6f53b5] ">登录</Button>
     </Form>
   );
 }

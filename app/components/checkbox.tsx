@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2024-09-10 15:38:08
  * @LastEditors: liaokt
- * @LastEditTime: 2024-09-10 15:48:45
+ * @LastEditTime: 2024-09-27 16:23:53
  */
 "use client";
 
@@ -25,7 +25,7 @@ const Checkbox = React.forwardRef<
     )}
     {...props}>
     <CheckboxPrimitive.Indicator className={cn("flex items-center justify-center text-current")}>
-      <CheckIcon className="h-4 w-4 border-white" />
+      <CheckIcon className="h-4 w-4 border-[bg-primary]" />
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ));
