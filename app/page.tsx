@@ -6,7 +6,7 @@
  * @LastEditTime: 2024-10-24 18:10:21
  */
 
-import { Button } from "@/app/components/button";
+import { Button } from "@/app/base/components/button";
 import { signIn } from "@/lib/auth";
 
 export default function Home() {
