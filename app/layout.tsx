@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "@/app/base/components/Toast/toaster";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <Toaster />
     </html>
   );
 }
