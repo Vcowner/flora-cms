@@ -1,5 +1,13 @@
+/*
+ * @Author: liaokt
+ * @Description:
+ * @Date: 2024-09-06 14:39:28
+ * @LastEditors: liaokt
+ * @LastEditTime: 2024-10-28 15:25:31
+ */
 import type { Metadata } from "next";
-import { Toaster } from "@/app/base/components/Toast/toaster";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ConfigProvider } from "antd";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -26,8 +34,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
-      <Toaster />
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#4CAF50",
+              borderRadius: 4,
+            },
+          }}>
+          <AntdRegistry>{children}</AntdRegistry>
+        </ConfigProvider>
+      </body>
     </html>
   );
 }

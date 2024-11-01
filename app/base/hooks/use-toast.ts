@@ -55,6 +55,7 @@ interface State {
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
+// 安排在延迟后移除 toast
 const addToRemoveQueue = (toastId: string) => {
   if (toastTimeouts.has(toastId)) {
     return;
@@ -137,6 +138,7 @@ function dispatch(action: Action) {
 
 type Toast = Omit<ToasterToast, "id">;
 
+// 用于创建新的 toast，生成一个新的 id，派发 ADD_TOAST 操作，并返回用于更新活关闭 toast 的方法
 function toast({ ...props }: Toast) {
   const id = genId();
 

@@ -3,13 +3,13 @@
  * @Description: 请求实例
  * @Date: 2024-10-25 14:56:07
  * @LastEditors: liaokt
- * @LastEditTime: 2024-10-25 16:07:39
+ * @LastEditTime: 2024-10-28 09:54:04
  */
 import { toast } from "@hooks/use-toast";
 import axios, { InternalAxiosRequestConfig } from "axios";
 
-interface ExtendedAxiosRequestConfig<T> extends InternalAxiosRequestConfig<T> {
-  getCancelMethod?: any;
+interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
+  getCancelMethod?: (args: unknown) => void;
 }
 
 const { CancelToken } = axios;
@@ -46,7 +46,7 @@ instance.interceptors.request.use((config) => {
 });
 
 // 处理获取取消请求的配置
-instance.interceptors.request.use((config: ExtendedAxiosRequestConfig<any>) => {
+instance.interceptors.request.use((config: ExtendedAxiosRequestConfig) => {
   if (config.getCancelMethod instanceof Function) {
     config.cancelToken = new CancelToken((cancel) => {
       config.getCancelMethod!(cancel);
@@ -67,10 +67,23 @@ instance.interceptors.response.use(
         title: "请求响应失败",
         description: message,
       });
+      return Promise.reject(data);
     }
-    return response.data;
   },
   (error) => {
+    if (error instanceof axios.AxiosError) {
+      switch (error.response?.status) {
+        case 401:
+          location.href = "/login";
+          return;
+        default: {
+          toast({
+            title: "请求响应失败",
+            description: error.message,
+          });
+        }
+      }
+    }
     return Promise.reject(error);
   }
 );
